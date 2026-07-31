@@ -81,9 +81,11 @@ export const AdminLoginPage = () => {
           alt="Dealership Logo" 
           className="h-12 w-auto object-contain mb-4" 
         />
-        <h1 className="font-display text-3xl font-extrabold text-gradient text-center">
-          {isForgotMode ? 'Reset Security' : 'Unlock Admin Console'}
-        </h1>
+        {isForgotMode && (
+          <h1 className="font-display text-3xl font-extrabold text-gradient text-center">
+            Reset Security
+          </h1>
+        )}
         {isForgotMode && (
           <p className="text-slate-400 text-xs mt-1 font-sans text-center">
             Simulated console password overwrite
