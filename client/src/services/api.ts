@@ -2,7 +2,9 @@ import axios from 'axios';
 
 // Create base axios instance for v1 endpoints
 export const api = axios.create({
-  baseURL: '/api/v1',
+  baseURL: import.meta.env.PROD 
+    ? (import.meta.env.VITE_API_URL || 'https://bike-booking-backend.onrender.com/api/v1') 
+    : '/api/v1',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
