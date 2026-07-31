@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
 // Features Placeholder Pages
@@ -57,7 +57,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeInitializer />
-      <BrowserRouter basename={import.meta.env.MODE === 'production' ? '/bike-booking' : '/'}>
+      <HashRouter>
         <Routes>
           {/* Customer Booking QR Entrypoints (Clean full-viewport container) */}
           <Route
@@ -165,7 +165,7 @@ export const App = () => {
           <Route path="*" element={<Navigate to="/admin/login" replace />} />
         </Routes>
         <Toaster theme="dark" position="top-right" richColors />
-      </BrowserRouter>
+      </HashRouter>
     </QueryClientProvider>
   );
 };
