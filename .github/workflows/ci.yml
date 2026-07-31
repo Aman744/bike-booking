@@ -1,0 +1,48 @@
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # Install dependencies for all workspaces
+      - name: Install dependencies
+        run: npm ci
+
+      # Build the shared TypeScript library workspace first
+      - name: Build Shared Library
+        run: npm run build --workspace=shared
+
+      # Compile and verify the backend server workspace
+      - name: Build Backend Server
+        run: npm run build --workspace=server
+
+      # Compile and build the frontend client workspace
+      - name: Build Frontend Client
+        run: npm run build --workspace=client
