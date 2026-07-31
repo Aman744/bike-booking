@@ -57,7 +57,7 @@ export const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeInitializer />
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.MODE === 'production' ? '/bike-booking' : '/'}>
         <Routes>
           {/* Customer Booking QR Entrypoints (Clean full-viewport container) */}
           <Route
