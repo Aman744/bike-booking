@@ -1,7 +1,9 @@
 import { Schema, model, Document } from 'mongoose';
 import { IBooking, IStatusHistory } from 'shared';
 
-export interface IBookingDocument extends Omit<IBooking, '_id'>, Document {}
+export interface IBookingDocument extends Omit<IBooking, '_id'>, Document {
+  pendingPayment?: number;
+}
 
 const StatusHistorySchema = new Schema<IStatusHistory>({
   status: { type: String, required: true },

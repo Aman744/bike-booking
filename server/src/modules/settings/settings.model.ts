@@ -1,7 +1,11 @@
 import { Schema, model, Document } from 'mongoose';
 import { ISettings } from 'shared';
 
-export interface ISettingsDocument extends Omit<ISettings, '_id'>, Document {}
+export interface ISettingsDocument extends Omit<ISettings, '_id'>, Document {
+  dealershipFavicon?: string;
+  defaultPerDayRent?: number;
+  defaultSecurityDeposit?: number;
+}
 
 const SettingsSchema = new Schema<ISettingsDocument>(
   {
