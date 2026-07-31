@@ -97,6 +97,7 @@ export const bookingSchema = z.object({
   perDayRent: z.number().optional(),
   securityDeposit: z.number().optional(),
   totalPayment: z.number().optional(),
+  pendingPayment: z.number().optional(),
 
   // Emergency contact
   emergencyName: z.string().optional(),

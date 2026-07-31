@@ -81,7 +81,6 @@ export const CustomerBookingPage = () => {
   const returnDateVal = watch('returnDate');
   const perDayRentVal = watch('perDayRent');
   const securityDepositVal = watch('securityDeposit');
-  const pendingPaymentVal = watch('pendingPayment');
 
   // Query A: Fetch single bike if bikeId exists in URL
   const { data: singleBikeData, isLoading: isBikeLoading } = useQuery({

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, ShieldAlert, Loader2, KeyRound } from 'lucide-react';
+import { Mail, Lock, Loader2 } from 'lucide-react';
 import { loginSchema, LoginInput } from 'shared';
 import useAuth from '../../hooks/useAuth';
 import useSettings from '../../hooks/useSettings';
@@ -77,7 +77,7 @@ export const AdminLoginPage = () => {
       {/* Logo Header */}
       <div className="flex flex-col items-center mb-8">
         <img 
-          src={isImageUrl(settings?.dealershipLogo) ? settings.dealershipLogo : 'https://lykanrides.com/wp-content/uploads/2025/03/logo.png'} 
+          src={isImageUrl(settings?.dealershipLogo) ? settings?.dealershipLogo : 'https://lykanrides.com/wp-content/uploads/2025/03/logo.png'} 
           alt="Dealership Logo" 
           className="h-12 w-auto object-contain mb-4" 
         />

@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { BarChart3, Download, Printer, Loader2, IndianRupee, Calendar, FileText, Briefcase, Search, RefreshCw } from 'lucide-react';
 import api from '../../services/api';
 import useSettings from '../../hooks/useSettings';
-import useAuth from '../../hooks/useAuth';
 import { IBooking } from 'shared';
 
 export const AdminReportsPage = () => {
   const { settings } = useSettings();
-  const { admin } = useAuth();
   const [search, setSearch] = useState('');
 
   // Fetch all bookings for report calculations
@@ -63,23 +61,35 @@ export const AdminReportsPage = () => {
       'Destination'
     ];
 
-    const rows = bookings.map(b => [
-      b.bookingNumber || '',
-      b.bookingDate ? new Date(b.bookingDate).toLocaleDateString() : '',
-      b.customerName || '',
-      b.customerEmail || '',
-      b.customerPhone || '',
-      b.bikeName || b.bikeId || '',
-      b.pickupDate ? new Date(b.pickupDate).toLocaleDateString() : '',
-      b.returnDate ? new Date(b.returnDate).toLocaleDateString() : '',
-      b.totalDays || 0,
-      b.rentPrice || 0,
-      b.securityDeposit || 0,
-      b.totalPayment || 0,
-      b.status || '',
-      b.aadhaarNumber || '',
-      b.destination || ''
-    ]);
+    const rows = bookings.map(b => {
+      let days = 1;
+      if (b.pickupDate && b.returnDate) {
+        const start = new Date(b.pickupDate);
+        const end = new Date(b.returnDate);
+        const diffTime = end.getTime() - start.getTime();
+        if (!isNaN(diffTime)) {
+          days = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+        }
+      }
+
+      return [
+        b.bookingNumber || '',
+        b.bookingDate ? new Date(b.bookingDate).toLocaleDateString() : '',
+        b.customerName || '',
+        b.email || '',
+        b.mobile || '',
+        b.bikeName || b.bikeId || '',
+        b.pickupDate ? new Date(b.pickupDate).toLocaleDateString() : '',
+        b.returnDate ? new Date(b.returnDate).toLocaleDateString() : '',
+        days,
+        b.perDayRent || 0,
+        b.securityDeposit || 0,
+        b.totalPayment || 0,
+        b.status || '',
+        b.aadhaarNumber || '',
+        b.destination || ''
+      ];
+    });
 
     const csvContent = [
       headers.join(','),
@@ -122,7 +132,7 @@ export const AdminReportsPage = () => {
       b.customerName || '',
       b.bikeName || b.bikeId || '',
       b.registrationNumber || '',
-      b.rentPrice || 0,
+      b.perDayRent || 0,
       b.securityDeposit || 0,
       b.totalPayment || 0,
       b.status === 'Completed' || b.status === 'Approved' ? 'Paid' : b.status === 'Cancelled' ? 'Refunded' : 'Unpaid'
@@ -151,7 +161,7 @@ export const AdminReportsPage = () => {
   const filteredBookings = bookings.filter(b => 
     b.bookingNumber?.toLowerCase().includes(search.toLowerCase()) ||
     b.customerName?.toLowerCase().includes(search.toLowerCase()) ||
-    b.customerPhone?.toLowerCase().includes(search.toLowerCase()) ||
+    b.mobile?.toLowerCase().includes(search.toLowerCase()) ||
     (b.bikeName || b.bikeId || '').toLowerCase().includes(search.toLowerCase())
   );
 
