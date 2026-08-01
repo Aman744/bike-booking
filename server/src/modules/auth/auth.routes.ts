@@ -38,10 +38,10 @@ const router = Router();
  *               email:
  *                 type: string
  *                 format: email
- *                 example: admin@dealership.com
+ *                 example: your@email.com
  *               password:
  *                 type: string
- *                 example: admin123
+ *                 example: yourpassword
  *               rememberMe:
  *                 type: boolean
  *                 example: true

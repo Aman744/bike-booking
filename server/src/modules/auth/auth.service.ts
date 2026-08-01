@@ -23,15 +23,17 @@ export class AuthService {
     try {
       const count = await this.adminRepository.countAdmins();
       if (count === 0) {
+        const seedEmail = process.env.SEED_ADMIN_EMAIL || 'admin@lykanrides.com';
+        const seedPassword = process.env.SEED_ADMIN_PASSWORD || 'ChangeMe@123';
         logger.info('No admins found. Seeding default SuperAdmin account...');
         await this.adminRepository.create({
           name: 'Super Admin',
-          email: 'admin@dealership.com',
-          password: 'admin123', // Will be hashed pre-save hook
+          email: seedEmail,
+          password: seedPassword, // Will be hashed by pre-save hook
           role: ROLES.SUPER_ADMIN,
           permissions: ROLE_PERMISSIONS[ROLES.SUPER_ADMIN],
         });
-        logger.info('✅ Default SuperAdmin account seeded: email: admin@dealership.com, password: admin123');
+        logger.info(`✅ Default SuperAdmin seeded. Use SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD env vars to customize.`);
       }
     } catch (error: any) {
       logger.error(error, 'Failed to seed default admin user');
