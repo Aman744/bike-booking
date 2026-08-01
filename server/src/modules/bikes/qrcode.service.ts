@@ -7,7 +7,8 @@ export class QRCodeService {
    * @param bikeId The dynamic ID of the motorbike
    */
   async generateForBike(bikeId: string): Promise<string> {
-    const bookingUrl = `${env.CLIENT_URL}/book/${bikeId}`;
+    const baseUrl = env.CLIENT_URL.endsWith('/') ? env.CLIENT_URL.slice(0, -1) : env.CLIENT_URL;
+    const bookingUrl = `${baseUrl}/#/book/${bikeId}`;
     
     // Generate QR code data URL (Base64 PNG representation)
     const qrDataUrl = await QRCode.toDataURL(bookingUrl, {
