@@ -4,17 +4,19 @@ import env from '../../shared/config/env.config';
 
 const authService = new AuthService();
 
+const isProd = env.NODE_ENV === 'production';
+
 const cookieOptions = {
   httpOnly: true,
-  secure: env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  secure: isProd,
+  sameSite: (isProd ? 'none' : 'lax') as 'none' | 'lax',
   maxAge: 24 * 60 * 60 * 1000, // 1 day in ms
 };
 
 const refreshCookieOptions = {
   httpOnly: true,
-  secure: env.NODE_ENV === 'production',
-  sameSite: 'lax' as const,
+  secure: isProd,
+  sameSite: (isProd ? 'none' : 'lax') as 'none' | 'lax',
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in ms
 };
 
@@ -50,8 +52,8 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
 
 export const logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
-    res.clearCookie('token');
-    res.clearCookie('refreshToken');
+    res.clearCookie('token', cookieOptions);
+    res.clearCookie('refreshToken', refreshCookieOptions);
 
     res.status(200).json({
       success: true,
