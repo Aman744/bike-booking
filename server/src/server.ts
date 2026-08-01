@@ -1,5 +1,9 @@
 import dns from 'dns';
-dns.setServers(['8.8.8.8', '1.1.1.1']);
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch (error) {
+  console.warn('Warning: Failed to set custom DNS servers. Using system default resolver.', error);
+}
 
 import express from 'express';
 import http from 'http';
