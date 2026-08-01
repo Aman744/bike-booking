@@ -21,6 +21,7 @@ export const initSocket = (server: HttpServer): Server => {
     'http://localhost:5175',
     'http://localhost:5176',
     'http://localhost:5177',
+    'https://aman744.github.io',
     getOriginBase(env.CLIENT_URL).replace(/\/$/, '')
   ];
 
