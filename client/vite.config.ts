@@ -6,7 +6,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   return {
-    base: mode === 'production' ? '/bike-booking/' : '/',
+    base: process.env.VITE_BASE_PATH || '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
