@@ -5,7 +5,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 # Copy root configs and package definitions
-COPY package.json ./
+COPY package.json package-lock.json ./
 COPY shared/package.json ./shared/
 COPY server/package.json ./server/
 COPY client/package.json ./client/
@@ -29,7 +29,7 @@ RUN npm run build:client
 FROM node:20-alpine AS server-prod
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json package-lock.json ./
 COPY shared/package.json ./shared/
 COPY server/package.json ./server/
 
