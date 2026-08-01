@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schema.train.tech/railway.schema.json",
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build --workspace=shared && npm run build --workspace=server"
+  },
+  "deploy": {
+    "startCommand": "node server/dist/server.js",
+    "restartPolicyType": "ON_FAILURE",
+    "restartPolicyMaxRetries": 10
+  }
+}
