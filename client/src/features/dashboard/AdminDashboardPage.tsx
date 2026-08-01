@@ -34,7 +34,14 @@ export const AdminDashboardPage = () => {
     },
   });
 
-  const commonBookingUrl = `${window.location.origin}/book`;
+  const getFrontendUrl = () => {
+    const origin = window.location.origin;
+    const pathname = window.location.pathname;
+    const cleanPath = pathname.replace(/(index\.html|\/)$/, '');
+    return `${origin}${cleanPath}/#/book`;
+  };
+
+  const commonBookingUrl = getFrontendUrl();
   const qrCodeImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&color=020617&data=${encodeURIComponent(commonBookingUrl)}`;
 
   const handleDownloadQR = async () => {
